@@ -1,18 +1,18 @@
 pipeline {
     agent none
-    
+
     stages {
         stage('Build and Test C# Code') {
             environment {
                 DOTNET_CLI_HOME = "/tmp/dotnet_cli_home"
             }
-            stages {
-                agent {
-                    docker { 
-                        image 'mcr.microsoft.com/dotnet/sdk:6.0' 
-                        reuseNode true
-                    }
+            agent {
+                docker { 
+                    image 'mcr.microsoft.com/dotnet/sdk:6.0' 
+                    reuseNode true
                 }
+            }
+            stages {
                 stage('Build C# Code') {
                     steps {
                         sh 'dotnet build'
@@ -26,13 +26,13 @@ pipeline {
             }
         }
         stage('Build, Lint and Test Typescript Code ') {
-            stages {
-                agent {
-                    docker {
-                        image 'node:17-bullseye'
-                        reuseNode true
-                    }
+            agent {
+                docker {
+                    image 'node:17-bullseye'
+                    reuseNode true
                 }
+            }
+            stages {
                 stage('Build Typescript Code') {
                     steps {
                         dir('DotnetTemplate.Web') {
