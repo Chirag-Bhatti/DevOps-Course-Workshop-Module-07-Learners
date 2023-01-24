@@ -12,10 +12,14 @@ jobs:
     - name: Run C# tests
       run: dotnet test
     - name: Run NPM install
-      run: cd ./DotnetTemplate.Web && npm install
+      working-directory: ./DotnetTemplate.Web
+      run: npm install
     - name: Build NPM code
+      working-directory: ./DotnetTemplate.Web
       run: npm run build
     - name: Run TS linter
+      working-directory: ./DotnetTemplate.Web
       run: npm run lint
     - name: Run TS tests
+      working-directory: ./DotnetTemplate.Web
       run: npm t
