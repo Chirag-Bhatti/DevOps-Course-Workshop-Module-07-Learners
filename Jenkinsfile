@@ -5,6 +5,7 @@ pipeline {
         stage('Build and Test C# Code') {
             environment {
                 DOTNET_CLI_HOME = "/tmp/dotnet_cli_home"
+                XDG_DATA_HOME = "/tmp"
             }
             agent {
                 docker { 
