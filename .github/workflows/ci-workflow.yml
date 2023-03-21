@@ -34,13 +34,15 @@ jobs:
     needs: build
     name: Auto publish to Docker Hub
     runs-on: ubuntu-latest
+    env: 
+      DOCKER_HUB_PASSWORD : '${{ secrets.DOCKER_HUB_PASSWORD}}'
     steps:
     - uses: actions/checkout@v2 # Adds a step to checkout the repository code
     - name: print the docker hub username
       run: echo ${{ secrets.DOCKER_HUB_USERNAME }}
     - name: login into docker hub
-      run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+      run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p $DOCKER_HUB_PASSWORD
     - name: build docker image
-      run: docker build --tag ${{ secrets.DOCKER_HUB_USERNAME }}/dotnetteplate:${{ secrets.DOCKER_HUB_PASSWORD }}
+      run: docker build --tag ${{ secrets.DOCKER_HUB_USERNAME }}/dotnetteplate:${{ github.ref_name }} .
     - name: publish to docker hub
-      run: docker publish ${{ secrets.DOCKER_HUB_USERNAME }}/dotnettemplate:${{ github.ref }}
+      run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/dotnettemplate:${{ github.ref_name }}
